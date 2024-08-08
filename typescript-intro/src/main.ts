@@ -5,7 +5,7 @@ import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.ts'
 import {bulbasaur, pokemons} from "./base/02-objects.ts";
-import {charmander} from "./base/03.classes.ts";
+import {charmander} from "./base/03-classes.ts";
 
 
 const pokemonNames = pokemons.map((pokemon) => pokemon.name);
