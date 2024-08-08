@@ -1,3 +1,5 @@
+import axios from "axios";
+
 
 export class Pokemon {
 
@@ -16,11 +18,27 @@ export class Pokemon {
     speak(){
         console.log(`${this.name}, ${this.name}`);
     }
+
+   async getMoves(){
+       // const moves = 10;
+        const { data}  = await axios.get('https://pokeapi.co/api/v2/pokemon/4');
+        console.log(data.moves);
+
+        return data.moves;
+
+        // return resp;
+
+
+    }
 }
 
 export const charmander = new Pokemon(4,'Scuare');
 
-console.log(charmander);
+// console.log(charmander);
+//
+// charmander.scream();
+// charmander.speak();
 
-charmander.scream();
-charmander.speak();
+// console.log( charmander.getMoves());
+
+charmander.getMoves();
