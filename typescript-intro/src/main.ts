@@ -4,10 +4,14 @@ import './style.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.ts'
-import  {bulbasaur,pokemons } from "./base/02-objects.ts";
+import {bulbasaur, pokemons} from "./base/02-objects.ts";
+import {charmander} from "./base/03.classes.ts";
+
 
 const pokemonNames = pokemons.map((pokemon) => pokemon.name);
 const pokemonNamesString = pokemonNames.join(', ')
+
+
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
@@ -17,7 +21,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <a href="https://www.typescriptlang.org/" target="_blank">
       <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
     </a>
-    <h1>Hello ${pokemonNamesString} </h1>
+    <h1>Hello ${pokemonNamesString} este ${charmander.name}</h1>
     <div class="card">
       <button id="counter" type="button"></button>
     </div>
