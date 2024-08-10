@@ -14,7 +14,8 @@ export class PokeApiFetchAdapter implements HttpAdapter {
 }
 
 export class PokeApiAdapter implements  HttpAdapter{
-    private readonly axios = axios;
+    // private readonly axios = axios;
+     readonly axios = axios;
 
    async get<T>(url: string): Promise<T> {
 

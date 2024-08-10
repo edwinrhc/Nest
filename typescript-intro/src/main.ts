@@ -1,11 +1,15 @@
-import {name,age} from './base/01-types.ts';
+// import {name,age} from './base/01-types.ts';
 
 import './style.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.ts'
-import {bulbasaur, pokemons} from "./base/02-objects.ts";
-import {charmander} from "./base/04.injection.ts";
+import {
+    pokemons,
+    // bulbasaur
+} from "./base/02-objects.ts";
+// import {charmander} from "./base/04-injection.ts";
+import {charmander} from "./base/05-decorators.ts";
 
 
 const pokemonNames = pokemons.map((pokemon) => pokemon.name);
