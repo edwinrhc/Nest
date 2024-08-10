@@ -18,6 +18,7 @@ class NewPokemon{
 // configuremos el tsconfig.json  en  "experimentalDecorators": true,
 const MyDecorator =  () => {
 
+    // @ts-ignore
     return ( target: Function) => {
         // console.log(target)
         return NewPokemon;

@@ -3,13 +3,14 @@
 import './style.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { setupCounter } from './counter'
 import {
     pokemons,
     // bulbasaur
-} from "./base/02-objects.ts";
-// import {charmander} from "./base/04-injection.ts";
-import {charmander} from "./base/05-decorators.ts";
+} from "./base/02-objects";
+// import {charmander} from "./base/04-injection";
+// import {charmander} from "./base/05-decorators";
+import {charmander} from "./base/06-decorators2";
 
 
 const pokemonNames = pokemons.map((pokemon) => pokemon.name);
