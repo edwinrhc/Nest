@@ -40,7 +40,7 @@ export class CarsController {
 
     @Patch(':id')
     updateCar(
-        @Param('id', new ParseUUIDPipe({version:'4'})) id: string,
+        @Param('id') id: string,
         @Body() updateCarDto: UpdateCarDto)
     {
         return this.carsService.update(id,updateCarDto);
@@ -48,10 +48,14 @@ export class CarsController {
 
     @Delete(':id')
     deleteCar(
-        @Param('id', new ParseUUIDPipe({version:'4'})) id: string) {
+        @Param('id') id: string) {
+
+        const deletedCar = this.carsService.delete(id);
+
         return {
-            method: 'DELETE',
-            id: Number(id)
-        }
+            message: `Car with ID '${id}' deleted successfully.`,
+            deletedCar: deletedCar,
+            timestamp: new Date().toISOString(),
+        };
     }
 }
