@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import {Brand} from "./entities/brand.entity";
-import { v4 as uuid } from 'uuid';
+import {Car} from "../cars/interfaces/car.interface";
 
 @Injectable()
 export class BrandsService {
@@ -11,14 +11,7 @@ export class BrandsService {
       ]
 
   create(createBrandDto: CreateBrandDto) {
-    const { name } = createBrandDto
-    const brand: Brand = {
-      id:uuid(),
-      name: name.toLocaleLowerCase(),
-      createdAt: new Date().getTime()
-    }
-    this.brands.push(brand);
-    return brand;
+    return 'This action adds a new brand';
   }
 
   findAll() {
