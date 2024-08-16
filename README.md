@@ -1,6 +1,6 @@
 # Proyecto Backend Escalable con NestJS
 
-Este proyecto es un backend escalable desarrollado con [NestJS](https://nestjs.com/), un framework progresivo de Node.js que permite construir aplicaciones eficientes y bien estructuradas.
+Este proyecto es un backend escalable desarrollado con [NestJS](https://nestjs.com/), un framework progresivo de Node.js que permite construir aplicaciones eficientes y bien estructuradas..
 
 ## Características
 
