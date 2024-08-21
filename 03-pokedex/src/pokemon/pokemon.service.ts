@@ -67,7 +67,6 @@ export class PokemonService {
     }
 
     async remove(id: string) {
-
         // deletedCount la desestructuramos
         const { deletedCount } = await this.pokemonModel.deleteOne({ _id: id  });
         if(deletedCount === 0)
@@ -75,7 +74,7 @@ export class PokemonService {
             throw new BadRequestException(`Pokemon with id ${id} not found`);
         }
 
-            return { message: `Pokemon with id ${id} was successfully deleted`};
+            return { message: `Pokemon with id ${id} was successfully deleted!!!`};
     }
 
 
