@@ -3,6 +3,9 @@
 /node_modules
 /build
 
+# BD Mongo
+/mongo
+
 # Logs
 logs
 *.log
