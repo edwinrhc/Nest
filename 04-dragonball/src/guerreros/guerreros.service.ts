@@ -61,7 +61,23 @@ export class GuerrerosService {
 
 
   async update(term: string, updateGuerreroDto: UpdateGuerrerosDto){
+    const guerrero = await this.findOne(term);
+    if(updateGuerreroDto.name){
+        updateGuerreroDto.name = updateGuerreroDto.name.toLowerCase();
+    }
+    try{
+      await guerrero.updateOne(updateGuerreroDto);
+    }catch (error){
+      this.handExceptions(error);
+    }
+  }
 
+  async remove(id: string){
+    const {deletedCount}  = await this.guerrerosModel.deleteOne({_id: id});
+    if(deletedCount === 0){
+      throw new BadRequestException(`Guerreros deleted, id ${id} not found`);
+    }
+    return { message: `Guerrero with ID ${id} was successfully deleted` };
   }
 
 
