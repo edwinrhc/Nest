@@ -8,12 +8,14 @@ import {SeedModule} from './seed/seed.module';
 import * as process from "node:process";
 import {ConfigModule} from "@nestjs/config";
 import {EnvConfiguration} from "./config/env.config";
+import {JoiValidationSchema} from "./config/joi.validation";
 
 
 @Module({
     imports: [
         ConfigModule.forRoot({
-            load:[ EnvConfiguration]
+            load:[ EnvConfiguration],
+            validationSchema: JoiValidationSchema
 
         }), // Siempre al inicio
         ServeStaticModule.forRoot({
