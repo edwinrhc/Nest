@@ -1,6 +1,8 @@
-import {BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {BeforeInsert, BeforeUpdate,Unique , Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
+@Unique('UQ_product_title', ['title'])  // Constraint de título único
+@Unique('UQ_product_slug', ['slug'])    // Constraint de slug único
 export class Product {
 
     @PrimaryGeneratedColumn('uuid')
