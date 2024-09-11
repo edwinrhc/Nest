@@ -13,4 +13,5 @@ import {Product} from "./entities/product.entity";
       ])
   ]
 })
-export class ProductsModule {}
+export class ProductsModule {
+}
