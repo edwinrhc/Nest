@@ -1,6 +1,8 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {BeforeInsert, BeforeUpdate,Unique , Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
+@Unique('UQ_product_title', ['title'])  // Constraint de título único
+@Unique('UQ_product_slug', ['slug'])    // Constraint de slug único
 export class Product {
 
     @PrimaryGeneratedColumn('uuid')
@@ -11,7 +13,7 @@ export class Product {
     })
     title: string;
 
-    @Column('numeric', {
+    @Column('float', {
         default: 0
     })
     price: number;
@@ -43,4 +45,17 @@ export class Product {
 
     @Column('text')
     gender: string;
+
+    @BeforeInsert()
+    checkSlugInsert(){
+        if(!this.slug){
+            this.slug = this.title;
+        }
+        this.slug = this.slug
+            .toLowerCase()
+            .replaceAll(' ','_')
+            .replaceAll("'",'')
+    }
+
+    // @BeforeUpdate()
 }
