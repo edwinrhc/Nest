@@ -48,7 +48,12 @@ export class ProductsService {
         if(isUUID(term)){
             product = await this.productRepository.findOneBy({id: term});
         }else{
-            product = await this.productRepository.findOneBy({slug: term});
+          const queryBuilder = this.productRepository.createQueryBuilder();
+          product = await queryBuilder
+                .where(`UPPER(title) =:title or slug =:slug`,{
+                    title: term.toUpperCase(),
+                    slug: term.toLowerCase()
+                }).getOne();
         }
 
         if (!product) {
