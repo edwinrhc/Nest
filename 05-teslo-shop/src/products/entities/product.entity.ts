@@ -1,4 +1,5 @@
-import {BeforeInsert, BeforeUpdate,Unique , Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {BeforeInsert, BeforeUpdate, Unique, Column, Entity, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import {ProductImage} from "./product-image.entity";
 
 @Entity()
 @Unique('UQ_product_title', ['title'])  // Constraint de título único
@@ -46,6 +47,22 @@ export class Product {
     @Column('text')
     gender: string;
 
+
+    @Column('text',{
+        array:true,
+        default: []
+    })
+    tags: string[];
+
+    @OneToMany(
+        () => ProductImage,
+        (productImage) => productImage.product,
+        {cascade: true}
+    )
+    images?: ProductImage[];
+
+
+
     @BeforeInsert()
     checkSlugInsert(){
         if(!this.slug){
@@ -57,5 +74,11 @@ export class Product {
             .replaceAll("'",'')
     }
 
-    // @BeforeUpdate()
+     @BeforeUpdate()
+    checkSlugUpdate(){
+         this.slug = this.slug
+             .toLowerCase()
+             .replaceAll(' ','_')
+             .replaceAll("'",'')
+     }
 }
