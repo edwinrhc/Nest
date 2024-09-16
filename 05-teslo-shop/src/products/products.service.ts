@@ -2,7 +2,7 @@ import {BadRequestException, Injectable, InternalServerErrorException, Logger, N
 import {CreateProductDto} from './dto/create-product.dto';
 import {UpdateProductDto} from './dto/update-product.dto';
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {DataSource, Repository} from "typeorm";
 import {Product} from "./entities/product.entity";
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { validate as isUUID} from 'uuid';
@@ -17,7 +17,9 @@ export class ProductsService {
         @InjectRepository(Product)
         private readonly productRepository: Repository<Product>,
         @InjectRepository(ProductImage)
-        private readonly productImageRepository: Repository<ProductImage>
+        private readonly productImageRepository: Repository<ProductImage>,
+
+        private readonly  dataSoruce: DataSource
     ) {
     }
 
@@ -92,17 +94,38 @@ export class ProductsService {
 
     async update(id: string, updateProductDto: UpdateProductDto) {
 
+        const { images, ...toUpdate } = updateProductDto;
+
         const product = await this.productRepository.preload({
             id:id,
-            ...updateProductDto,
-            images:[]
+            ...toUpdate
         });
         if(!product) throw new NotFoundException(`Product with id ${ id } not found`);
 
+        // Creaate query runner
+        // Docu: https://orkhan.gitbook.io/typeorm/docs/insert-query-builder
+        const queryRunner = this.dataSoruce.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
         try{
-            await this.productRepository.save(product);
-            return product;
+
+            if( images ){
+                await queryRunner.manager.delete(ProductImage, { product: { id  }   })
+
+                product.images = images.map(
+                    image => this.productImageRepository.create({url: image}))
+
+            }
+            //Aqui guardamos el producto
+            await queryRunner.manager.save(product);
+          //  await this.productRepository.save(product);
+            await queryRunner.commitTransaction();
+            await queryRunner.release();
+            return this.findOnePlain(id);
         }catch(error){
+
+            await queryRunner.rollbackTransaction();
+            await queryRunner.release();
           this.handleDBExceptions(error);
         }
     }
