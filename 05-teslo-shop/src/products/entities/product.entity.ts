@@ -1,7 +1,7 @@
 import {BeforeInsert, BeforeUpdate, Unique, Column, Entity, PrimaryGeneratedColumn, OneToMany} from "typeorm";
 import {ProductImage} from "./product-image.entity";
 
-@Entity()
+@Entity({name: 'products'})
 @Unique('UQ_product_title', ['title'])  // Constraint de título único
 @Unique('UQ_product_slug', ['slug'])    // Constraint de slug único
 export class Product {
