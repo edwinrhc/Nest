@@ -12,7 +12,11 @@ import {Product,ProductImage} from "./entities";
           Product,
           ProductImage
       ])
-  ]
+  ],
+    exports:[
+        ProductsService,
+        TypeOrmModule // Here we export the repositories
+    ]
 })
 export class ProductsModule {
 }
