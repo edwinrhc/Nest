@@ -4,6 +4,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import { ProductsModule } from './products/products.module';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
+import { FilesModule } from './files/files.module';
 import * as process from "node:process";
 
 
@@ -22,7 +23,8 @@ import * as process from "node:process";
       }),
       ProductsModule,
       CommonModule,
-      SeedModule
+      SeedModule,
+      FilesModule
   ],
   controllers: [],
   providers: [],
