@@ -6,6 +6,8 @@ import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
 import * as process from "node:process";
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'node:path';
 
 
 @Module({
@@ -21,11 +23,19 @@ import * as process from "node:process";
           autoLoadEntities: true,
           synchronize: true, //Cuando se hace algun cambio , se sincroniza automaticamente
       }),
+
+      ServeStaticModule.forRoot({
+        rootPath: join(__dirname,'..','public')
+      }),
+
+
       ProductsModule,
       CommonModule,
       SeedModule,
       FilesModule
   ],
+
+
   controllers: [],
   providers: [],
 })
