@@ -8,6 +8,7 @@ import { FilesModule } from './files/files.module';
 import * as process from "node:process";
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'node:path';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -32,7 +33,8 @@ import { join } from 'node:path';
       ProductsModule,
       CommonModule,
       SeedModule,
-      FilesModule
+      FilesModule,
+      AuthModule
   ],
 
 
