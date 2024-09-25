@@ -1,26 +1,68 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import {BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
+
+import * as bcrypt from 'bcrypt';
+import { CreateUserDto, LoginUserDto } from './dto';
+
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+
+  constructor(
+      @InjectRepository(User)
+      private readonly userRepository: Repository<User>
+  ) {
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async create(createUserDto: CreateUserDto) {
+
+    try{
+
+      const {password, ...userDetail} = createUserDto;
+
+     const user = this.userRepository.create({
+       ...userDetail,
+       password: bcrypt.hashSync(password, 10)
+     });
+      await this.userRepository.save(user);
+      delete user.password;
+      return user;
+      //TODO: Retornar el JWT de acceso
+
+    }catch(err){
+      console.log(err)
+      this.handleDBErrors(err);
+    }
+
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async login(loginUserDto: LoginUserDto){
+      const { password,email} = loginUserDto;
+      const user = await this.userRepository.findOne({
+          where: {email},
+          select: {email:true,password:true},
+      });
+      if(!user){
+          throw new UnauthorizedException('Credentials are not valid (email)');
+      }
+      if(!bcrypt.compareSync(password,user.password)){
+          throw new UnauthorizedException('Credentials are not valid (password)');
+      }
+
+      return user;
+      //TODO: retornar el JWT
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+
+  private handleDBErrors(error:any): never{
+    if(error.code ==='23505')
+      throw  new BadRequestException(error.detail);
+    console.log(error);
+    throw new InternalServerErrorException('Please check server logs');
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
+
 }

@@ -12,14 +12,16 @@ export class User {
 })
     email: string;
 
-    @Column('text')
+    @Column('text',{
+        select:false
+    })
     password: string;
 
     @Column('text')
     fullName: string;
 
     @Column('bool',{
-        nullable:true,
+        default:true
     })
     isActive: boolean;
 
@@ -28,5 +30,4 @@ export class User {
         default: ['user']
     })
     roles: string[];
-
 }
