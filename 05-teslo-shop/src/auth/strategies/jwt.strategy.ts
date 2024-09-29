@@ -1,7 +1,7 @@
 import { PassportStrategy } from "@nestjs/passport";
 import {ExtractJwt, Strategy } from "passport-jwt";
 import { User } from "../entities/user.entity";
-import { JWTPayload } from "../interfaces/jwt-payload.interface";
+import { JwtPayload } from "../interfaces/jwt-payload.interface";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ConfigService } from "@nestjs/config";
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
         });
     }
 
-    async validate(payload: JWTPayload):Promise<User>{
+    async validate(payload: JwtPayload):Promise<User>{
 
 
         const { email } = payload;
