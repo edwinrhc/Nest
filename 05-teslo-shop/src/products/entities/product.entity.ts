@@ -1,5 +1,6 @@
-import {BeforeInsert, BeforeUpdate, Unique, Column, Entity, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import {BeforeInsert, BeforeUpdate, Unique, Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne} from "typeorm";
 import {ProductImage} from "./product-image.entity";
+import { User } from "src/auth/entities/user.entity";
 
 @Entity({name: 'products'})
 @Unique('UQ_product_title', ['title'])  // Constraint de título único
@@ -60,6 +61,14 @@ export class Product {
         {cascade: true, eager: true}
     )
     images?: ProductImage[];
+
+
+    @ManyToOne(
+        () => User,
+        (user) => user.product,
+        {eager: true}
+    )
+    user: User;
 
 
 
