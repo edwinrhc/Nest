@@ -9,37 +9,61 @@ import { User } from "src/auth/entities/user.entity";
 @Unique('UQ_product_slug', ['slug'])    // Constraint de slug único
 export class Product {
 
-    @ApiProperty()
+    @ApiProperty({
+        example: '1de8ff1a-3a2a-47d7-bc77-3856a1e8c124',
+        description: 'Product ID',
+        uniqueItems: true
+    })
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 'T-shirt Teslo',
+        description: 'Product Title',
+        uniqueItems: true
+    })
     @Column('text', {
         unique: true
     })
     title: string;
 
-    @ApiProperty()
+
+    @ApiProperty({
+        example: 0,
+        description: 'Product Price'
+    })
     @Column('float', {
         default: 0
     })
     price: number;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 'Anim reprehendreid nulla in anim mollit minim irure',
+        description: 'Product description',
+        default: null
+    })
     @Column({
         type: 'text',
         nullable: true
     })
     description: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 't-shirt_teslo',
+        description: 'Product Slug - for SEO',
+        uniqueItems: true
+    })
     @Column({
         type: 'text',
         unique: true
     })
     slug: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 10,
+        description: 'Product stock',
+        default: 0
+    })
     @Column({
         type: 'int',
         default: 0
@@ -48,13 +72,19 @@ export class Product {
     stock: number;
 
 
-    @ApiProperty()
+    @ApiProperty({
+        example: ['M','XL','XXL'],
+        description: 'Product sizes'
+    })
     @Column('text', {
         array: true
     })
     sizes: string[];
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 'women',
+        description: 'Product gender'
+    })
     @Column('text')
     gender: string;
 
