@@ -14,6 +14,9 @@ export class MessageWsGateway implements OnGatewayConnection, OnGatewayDisconnec
 
   handleConnection(client: Socket) {
     // console.log('Cliente conectado', client.id);
+    // console.log(client)
+    const token = client.handshake.headers.authentication as string;
+    console.log({ token });
     this.messageWsService.registerClient(client);
     // console.log({conectados: this.messageWsService.getConnectedClients()});
 
@@ -22,6 +25,8 @@ export class MessageWsGateway implements OnGatewayConnection, OnGatewayDisconnec
     }
 
   handleDisconnect(client: Socket) {
+
+
     // console.log('Cliente desconectado',client.id);
     this.messageWsService.removeClient(client.id);
     // console.log({conectados: this.messageWsService.getConnectedClients()});
