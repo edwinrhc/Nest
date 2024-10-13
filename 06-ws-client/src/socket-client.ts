@@ -15,6 +15,8 @@ export const connectToServer = () => {
 
 const addListeners = (socket: Socket) => {
     const serverStatusLabel = document.querySelector('#server-status')!;
+    const clientsUl = document.querySelector('#clients-ul');
+
 
     // Escuchar es "on" informacion
     socket.on('connect', () => {
@@ -24,5 +26,16 @@ const addListeners = (socket: Socket) => {
     socket.on('disconnect', () => {
         // console.log('disconnect');
         serverStatusLabel.innerHTML = 'disconnected!';
+    })
+
+    socket.on('clients-updated',(clients: string[])=>{
+        let clientsHtml = '';
+        clients.forEach(clientId => {
+            clientsHtml += `
+                <li>${clientId}</li> `
+        });
+        // @ts-ignore
+        clientsUl.innerHTML = clientsHtml;
+
     })
 }
