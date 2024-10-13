@@ -1,6 +1,7 @@
-import {OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { MessageWsService } from './message-ws.service';
 import {Server, Socket } from 'socket.io';
+import { NewMessageDto } from './dtos/new-message.dto';
 
 @WebSocketGateway({cors: true})
 export class MessageWsGateway implements OnGatewayConnection, OnGatewayDisconnect{
@@ -25,5 +26,30 @@ export class MessageWsGateway implements OnGatewayConnection, OnGatewayDisconnec
     this.messageWsService.removeClient(client.id);
     // console.log({conectados: this.messageWsService.getConnectedClients()});
     this.wss.emit('clients-updated', this.messageWsService.getConnectedClients());
+    }
+
+    @SubscribeMessage('message-from-client')
+    //onMessaggeFromClient
+    handleMessageFromClient(client: Socket, payload: NewMessageDto) {
+
+      // message-from-server
+      //! Emite únicamente al cliente.
+      // client.emit('message-from-server',{
+      //   fullName: 'Soy yo',
+      //   message: payload.message || 'no-messsage!!'
+      // });
+
+      //! Emitir a todos MENOS, al cliente inicial
+      // client.broadcast.emit('message-from-server',{
+      //   fullName: 'Soy yo',
+      //   message: payload.message || 'no-messsage!!'
+      // });
+
+      // Emitir todos los clientes
+      this.wss.emit('message-from-server',{
+        fullName: 'Soy yo!!',
+        message: payload.message || 'no-message!!'
+      });
+
     }
 }

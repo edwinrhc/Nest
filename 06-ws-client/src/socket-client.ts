@@ -14,8 +14,11 @@ export const connectToServer = () => {
 
 
 const addListeners = (socket: Socket) => {
+    const clientsUl = document.querySelector('#clients-ul')
+    const messageForm = document.querySelector<HTMLInputElement>('#message-form')!;
+    const messageInput = document.querySelector<HTMLInputElement>('#message-input')!;
+    const messagesUl = document.querySelector<HTMLInputElement>('#messages-ul')!;
     const serverStatusLabel = document.querySelector('#server-status')!;
-    const clientsUl = document.querySelector('#clients-ul');
 
 
     // Escuchar es "on" informacion
@@ -36,6 +39,29 @@ const addListeners = (socket: Socket) => {
         });
         // @ts-ignore
         clientsUl.innerHTML = clientsHtml;
+    });
+    messageForm.addEventListener('submit', (e) => {
+        e.preventDefault(); // evita la propagacion del formulario
+        if(messageInput.value.trim().length <= 0 ){
+            return;
+        }
+        socket.emit('message-from-client', {
+            id: '',
+            message: messageInput.value,
+        });
+        messageInput.value = '';
+    });
 
+    socket.on('message-from-server',(payload: { fullName: string, message: string }) =>{
+        // console.log(payload);
+        const newMessage = `
+                <li>
+                            <strong>${payload.fullName} </strong>>
+                            <span>${payload.message} </span>
+                </li>    `;
+
+        const li = document.createElement('li');
+        li.innerHTML = newMessage;
+        messagesUl.append(li);
     })
 }
