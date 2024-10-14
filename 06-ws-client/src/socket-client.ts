@@ -1,5 +1,7 @@
 import { Manager, Socket } from "socket.io-client"
 
+let socket:  Socket;
+
 export const connectToServer = (token: string) => {
 
     const manager = new Manager('http://localhost:3000/socket.io/socket.io.js',{
@@ -11,14 +13,15 @@ export const connectToServer = (token: string) => {
 
     // estos son los namespace
 
-    const socket =  manager.socket('/');
-    console.log({socket});
-    addListeners(socket);
+    socket?.removeAllListeners();
+    socket =  manager.socket('/');
+
+    addListeners();
     // http://localhost:3000/socket.io/socket.io.js
 }
 
 
-const addListeners = (socket: Socket) => {
+const addListeners = () => {
     const clientsUl = document.querySelector('#clients-ul')
     const messageForm = document.querySelector<HTMLInputElement>('#message-form')!;
     const messageInput = document.querySelector<HTMLInputElement>('#message-input')!;
