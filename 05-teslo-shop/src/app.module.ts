@@ -9,6 +9,7 @@ import * as process from "node:process";
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'node:path';
 import { AuthModule } from './auth/auth.module';
+import { MessageWsModule } from './message-ws/message-ws.module';
 
 
 @Module({
@@ -34,7 +35,8 @@ import { AuthModule } from './auth/auth.module';
       CommonModule,
       SeedModule,
       FilesModule,
-      AuthModule
+      AuthModule,
+      MessageWsModule
   ],
 
 
