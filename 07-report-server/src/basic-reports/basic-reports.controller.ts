@@ -7,10 +7,19 @@ export class BasicReportsController {
   constructor(private readonly basicReportsService: BasicReportsService) { }
 
   @Get()
-  hello (@Res() response: Response){
+  async hello (@Res() response: Response){
     const pdfDoc =     this.basicReportsService.hello();
     response.setHeader('Content-Type', 'application/pdf');
     pdfDoc.info.Title= 'Hola-Mundo'
+    pdfDoc.pipe(response);
+    pdfDoc.end();
+  }
+
+  @Get('employment-letter')
+  async getEmploymentLetter(@Res() response: Response){
+    const pdfDoc = this.basicReportsService.employmentLetter();
+    response.setHeader('Content-Type', 'application/pdf');
+    pdfDoc.info.Title= 'Employment-Letter';
     pdfDoc.pipe(response);
     pdfDoc.end();
 
