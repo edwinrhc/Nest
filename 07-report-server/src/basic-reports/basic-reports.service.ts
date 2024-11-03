@@ -2,7 +2,7 @@ import {Injectable, NotFoundException, OnModuleInit} from '@nestjs/common';
 import {PrismaClient} from "@prisma/client";
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { PrinterService } from 'src/printer/printer.service';
-import {getEmploymentLetterByIdReport, getEmploymentLetterReport, getHelloWorldReport } from 'src/reports';
+import {getCountryReport, getEmploymentLetterByIdReport, getEmploymentLetterReport, getHelloWorldReport } from 'src/reports';
 
 
 @Injectable()
@@ -56,6 +56,13 @@ export class BasicReportsService extends PrismaClient implements OnModuleInit {
             employeeWorkSchedule: employee.work_schedule,
             employerCompany: 'Tucan code Corp.'
         });
+        const doc = this.printerService.createPdf(docDefinition);
+        return doc;
+    }
+
+    async getCountries(){
+        const docDefinition = getCountryReport();
+
         const doc = this.printerService.createPdf(docDefinition);
         return doc;
     }
