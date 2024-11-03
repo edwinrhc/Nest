@@ -1,4 +1,5 @@
 import type {Content, StyleDictionary, TDocumentDefinitions} from "pdfmake/interfaces";
+import { DateFormatter } from "src/helpers";
 
 const styles: StyleDictionary = {
     header: {
@@ -40,7 +41,7 @@ export const getEmploymentLetterReport = (): TDocumentDefinitions => {
         pageMargins: [40,60,40,60],
         header: {
             columns: [logo, {
-                text: `${new Date()}`,
+                text: DateFormatter.getDDMMMMYYYY(new Date()),
                 alignment: 'right',
                 margin:[20,20,20,20]
             }]
