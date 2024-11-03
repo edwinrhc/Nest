@@ -1,11 +1,11 @@
-import type {StyleDictionary, TDocumentDefinitions} from "pdfmake/interfaces";
+import type {Content, StyleDictionary, TDocumentDefinitions} from "pdfmake/interfaces";
 
 const styles: StyleDictionary = {
     header: {
         fontSize: 22,
         bold: true,
         alignment: 'center',
-        margin: [0, 0, 0, 20]
+        margin: [0, 60, 0, 20]
     },
     body: {
         alignment: 'justify',
@@ -15,16 +15,35 @@ const styles: StyleDictionary = {
         fontSize: 14,
         bold: true,
         alignment: 'left'
+    },
+    footer: {
+        fontSize: 10,
+        italics: true,
+        alignment: 'center',
+        margin: [0,0,0,20],
+
     }
 }
 
+const logo :  Content = {
+    image: 'src/assets/tucan-code-logo.png',
+    width: 100,
+    height: 100,
+    alignment: 'center',
+    margin: [0,0,0,20]
+}
 
 export const getEmploymentLetterReport = (): TDocumentDefinitions => {
 
     const doctDefinition: TDocumentDefinitions = {
         styles: styles,
+        pageMargins: [40,60,40,60],
         header: {
-            columns: ['1','2','3']
+            columns: [logo, {
+                text: `${new Date()}`,
+                alignment: 'right',
+                margin:[20,20,20,20]
+            }]
         },
         content: [
             {
@@ -42,7 +61,12 @@ export const getEmploymentLetterReport = (): TDocumentDefinitions => {
             {text: `[Cargo del Empleador]`, style: 'signature'},
             {text: `[Nombre de la Empresa]`, style: 'signature'},
             {text: `[Fecha de Emisión]`, style: 'signature'},
-
+        ],
+        footer: [
+            {
+                text: 'Este documento es una constancia de empleo y no representa un compromiso laboral.',
+                style: 'footer'
+            }
 
         ]
 
