@@ -1,5 +1,18 @@
 import type {Content, StyleDictionary, TDocumentDefinitions} from "pdfmake/interfaces";
 import { headerSection } from "./sections/header.section";
+import { DateFormatter } from "src/helpers";
+
+interface ReportValues {
+    employerName: string;
+    employerPostion: string;
+    employeeName: string;
+    employeePosition: string;
+    employeeStartdate: Date;
+    employeeHours: number;
+    employeeWorkSchedule: string;
+    employerCompany: string;
+}
+
 
 const styles: StyleDictionary = {
     header: {
@@ -27,7 +40,18 @@ const styles: StyleDictionary = {
 }
 
 
-export const getEmploymentLetterReport = (): TDocumentDefinitions => {
+export const getEmploymentLetterByIdReport = (values: ReportValues): TDocumentDefinitions => {
+
+    const {
+        employerName,
+        employerPostion,
+        employeeName,
+        employeePosition,
+        employeeStartdate,
+        employeeHours,
+        employeeWorkSchedule,
+        employerCompany
+    } = values;
 
     const doctDefinition: TDocumentDefinitions = {
         styles: styles,
@@ -44,15 +68,15 @@ export const getEmploymentLetterReport = (): TDocumentDefinitions => {
             },
             {
                 text: `
-                Yo, [Nombre del Empleador], en mi calidad de [Cargo del Empleador] de [Nombre de la Empresa], por medio de la presente certifico que [Nombre del Empleado] ha sido empleado en nuestra empresa desde el [Fecha de Inicio del Empleado].\n\n Durante su empleo, el Sr./Sra. [Nombre del Empleado] ha desempeñado el cargo de [Cargo del Empleado], demostrando responsabilidad, compromiso y habilidades profesionales en sus labores.\n\nLa jornada laboral del Sr./ Sra. [Nombre del Empleado] es de [Número de Horas] horas semanales, con un horario de [Horario de Trabajo], cumpliendo con las políticas y
+                Yo, ${ employerName }, en mi calidad de ${employerPostion} de ${employerCompany}, por medio de la presente certifico que ${employeeName} ha sido empleado en nuestra empresa desde el ${DateFormatter.getDDMMMMYYYY(employeeStartdate)}.\n\nDurante su empleo, el Sr./Sra. ${employeeName} ha desempeñado el cargo de ${employeePosition}, demostrando responsabilidad, compromiso y habilidades profesionales en sus labores.\n\nLa jornada laboral del Sr./ Sra. ${employeeName} es de ${employeeHours} horas semanales, con un horario de ${employeeWorkSchedule}, cumpliendo con las políticas y
                 procedimientos establecidos por la empresa.\n\n Esta constancia se expide a solicitud del interesado para los fines que considere conveniente`,
                 style: 'body'
             },
             {text: `Atentamente`, style: 'signature'},
-            {text: `[Nombre del Empleador]`, style: 'signature'},
-            {text: `[Cargo del Empleador]`, style: 'signature'},
-            {text: `[Nombre de la Empresa]`, style: 'signature'},
-            {text: `[Fecha de Emisión]`, style: 'signature'},
+            {text: employeeName, style: 'signature'},
+            {text: employerPostion, style: 'signature'},
+            {text: employerCompany, style: 'signature'},
+            {text: DateFormatter.getDDMMMMYYYY(new Date()), style: 'signature'},
         ],
         footer: [
             {
