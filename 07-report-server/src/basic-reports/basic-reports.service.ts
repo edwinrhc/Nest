@@ -54,7 +54,7 @@ export class BasicReportsService extends PrismaClient implements OnModuleInit {
             employeeStartdate: employee.start_date,
             employeeHours: employee.hours_per_day,
             employeeWorkSchedule: employee.work_schedule,
-            employerCompany: 'Tucan code Corp.'
+            employerCompany: 'ErhC code Corp.'
         });
         const doc = this.printerService.createPdf(docDefinition);
         return doc;
