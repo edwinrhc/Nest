@@ -13,8 +13,8 @@ const logo: Content = {
 const currentDate: Content = {
     text: DateFormatter.getDDMMMMYYYY(new Date()),
     alignment: 'right',
-    margin: [20, 30],
-    width: 150
+    margin: [45, 30],
+    width: 250
 }
 
 
