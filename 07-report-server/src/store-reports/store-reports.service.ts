@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrinterService } from 'src/printer/printer.service';
-import { getHelloWorldReport } from 'src/reports';
+import { getHelloWorldReport, orderByIdReport } from 'src/reports';
 
 @Injectable()
 export class StoreReportsService {
@@ -10,9 +10,7 @@ export class StoreReportsService {
     }
 
    async getOrderByIdReport(orderId: string) {
-        const docDefinition = getHelloWorldReport({
-            name:`Edwin HC ${orderId}`,
-        });
+        const docDefinition =  orderByIdReport();
         const doc = this.printerService.createPdf(docDefinition);
 
         return doc;
