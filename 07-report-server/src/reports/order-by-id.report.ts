@@ -31,6 +31,7 @@ export const orderByIdReport = (): TDocumentDefinitions  => {
                 style: 'header',
             },
             {
+                // Addrees y número recibo
                 columns: [
                     {
                         text: '15 Montgomery Str, Suite 100, \nOttawa ON K2Y 9X1, CANADA\nBN: 12783671823\nhttps://devtalles.com',
@@ -40,7 +41,10 @@ export const orderByIdReport = (): TDocumentDefinitions  => {
                         alignment: 'right'
                     }
                 ]
-            }
+            },
+
+            // Código QR
+            { qr: 'https://devtalles.com', fit:65,alignment:'right'},
         ]
     }
 
