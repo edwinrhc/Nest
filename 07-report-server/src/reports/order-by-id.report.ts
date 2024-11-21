@@ -1,5 +1,6 @@
 import {Content, StyleDictionary, TDocumentDefinitions } from "pdfmake/interfaces"
 import { DateFormatter } from "src/helpers"
+import { footerSection } from "./sections/footer.section"
 
 
 const logo: Content = {
@@ -11,9 +12,14 @@ const logo: Content = {
 
 const styles: StyleDictionary = {
     header: {
-        fontSize: 20,
+        fontSize: 18,
         bold: true,
         margin:[0,30,0,0]
+    },
+    subHeader: {
+        fontSize: 18,
+        bold: true,
+        margin:[0,20,0,0]
     }
 }
 
@@ -25,6 +31,7 @@ export const orderByIdReport = (): TDocumentDefinitions  => {
         styles: styles,
         header: logo,
         pageMargins:[40,60,40,60],
+        footer: footerSection,
         content: [
             {
                 text: 'Tucan Code',
@@ -37,7 +44,10 @@ export const orderByIdReport = (): TDocumentDefinitions  => {
                         text: '15 Montgomery Str, Suite 100, \nOttawa ON K2Y 9X1, CANADA\nBN: 12783671823\nhttps://devtalles.com',
                     },
                     {
-                        text: `Recibo No. $12333\nFecha del recibo ${DateFormatter.getDDMMMMYYYY(new Date())}\nPagar antes de: ${DateFormatter.getDDMMMMYYYY(new Date)}\n`,
+                        text: [
+                            { text: `Recibo No. 123123\n`, bold: true},
+                                    `nFecha del recibo ${DateFormatter.getDDMMMMYYYY(new Date())}\nPagar antes de: ${DateFormatter.getDDMMMMYYYY(new Date)}\n`
+                    ],
                         alignment: 'right'
                     }
                 ]
@@ -45,6 +55,17 @@ export const orderByIdReport = (): TDocumentDefinitions  => {
 
             // Código QR
             { qr: 'https://devtalles.com', fit:65,alignment:'right'},
+
+            // Direccion del cliente
+            {
+                text: [
+                    {text:`Cobrar a: \n`, bold: true, style: 'subHeader'},
+                    `Razón Social: Richter Supermark Michael Holz 
+                    Grenzacherwer 237
+                        
+                    `
+                ]
+            }
         ]
     }
 
