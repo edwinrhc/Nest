@@ -67,7 +67,12 @@ interface ReportValues {
 export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
 
     const { data} = value;
-    console.log(data);
+
+    const { customers, order_details} = data;
+
+    const subTotal = order_details.reduce( (acc,detail) => acc + detail.quantity * +detail.products.price, 0);
+
+    const total = subTotal * 1.15;
 
     return {
         styles: styles,
@@ -87,8 +92,8 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
                     },
                     {
                         text: [
-                            {text: `Recibo No. 123123\n`, bold: true},
-                            `nFecha del recibo ${DateFormatter.getDDMMMMYYYY(new Date())}\nPagar antes de: ${DateFormatter.getDDMMMMYYYY(new Date)}\n`
+                            {text: `Recibo No. ${data.order_id}\n`, bold: true},
+                            `\nFecha del recibo ${DateFormatter.getDDMMMMYYYY(data.order_date)}\nPagar antes de: ${DateFormatter.getDDMMMMYYYY(new Date)}\n`
                         ],
                         alignment: 'right'
                     }
@@ -102,8 +107,8 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
             {
                 text: [
                     {text: `Cobrar a: \n`, bold: true, style: 'subHeader'},
-                    `Razón Social: Richter Supermark Michael Holz 
-                    Grenzacherwer 237 `
+                    `Razón Social: ${customers.customer_name}
+                    Contacto: ${customers.contact_name} `
                 ]
             },
             // Tabla de detalle de la orden
@@ -115,22 +120,21 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
                     widths: [50, '*', 'auto', 'auto', 'auto'],
                     body: [
                         ['ID', 'Descripcion', 'Cantidad', 'Precio', 'Total'],
-                        ['1', 'Producto 1', '1', '100', {
-                            text: CurrencyFormatter.formatCurrency(100),
-                            alignment: 'right'
-                        }],
-                        ['2', 'Producto 2', '2', '200', {
-                            text: CurrencyFormatter.formatCurrency(4500),
-                            alignment: 'right'
-                        }],
-                        ['3', 'Producto 3', '3', '300', {
-                            text: CurrencyFormatter.formatCurrency(5500),
-                            alignment: 'right'
-                        }],
-                        ['4', 'Producto 4', '4', '400', {
-                            text: CurrencyFormatter.formatCurrency(1500),
-                            alignment: 'right'
-                        }],
+
+                        ...order_details.map((detail) =>[
+                            detail.order_detail_id.toString(),
+                            detail.products.product_name,
+                            detail.quantity.toString(),
+                            {
+                                text: CurrencyFormatter.formatCurrency(+detail.products.price),
+                                alignment: 'right'
+                            },
+                            {
+                                text: CurrencyFormatter.formatCurrency(+detail.products.price * detail.quantity),
+                                alignment: 'right'
+                            }
+                        ])
+
                     ]
                 }
             },
@@ -147,14 +151,14 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
                         body:
                         [
                         ['Subtotal',{
-                            text: CurrencyFormatter.formatCurrency(5000),
+                            text: CurrencyFormatter.formatCurrency(subTotal),
                             alignment: 'right'
                         }],
                         [   {
                                 text: 'Total',bold:true
                             },
                             {
-                                text: CurrencyFormatter.formatCurrency(150000),
+                                text: CurrencyFormatter.formatCurrency(total),
                                 alignment: 'right',
                                 bold:true
                         }]
