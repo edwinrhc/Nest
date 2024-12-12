@@ -25,6 +25,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.21.1",
+    "axios": "^1.7.9",
     "pdfmake": "^0.2.14",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
