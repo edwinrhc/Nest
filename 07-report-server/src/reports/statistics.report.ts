@@ -1,6 +1,7 @@
 import type{ TDocumentDefinitions } from "pdfmake/interfaces";
 import * as Utils from 'src/helpers/chart-utils';
 import { getDonutChart } from './charts/donut.chart';
+import { headerSection } from './sections/header.section';
 
 
 interface TopCountry{
@@ -29,9 +30,39 @@ export const getStatisticReport =  async (
   });
 
   const docDefinition : TDocumentDefinitions = {
+    pageMargins: [40,100,40,60],
+    header:  headerSection({
+      title: options.title ?? 'Estadisticas de clientes',
+      subTitle: options.subTitle ?? 'Top 10 países con más clientes',
+    }),
     content: [
-      { image:dountChart,
-        width:500
+      {
+        columns: [
+          {
+            stack: [
+              {
+                text: '10  países con más clientes',
+                alignment: 'center',
+                margin: [0,0,0,10]
+              },
+              { image:dountChart,
+                width:320
+              },
+            ]
+          },
+          {
+            layout: 'lightHorizontalLines',
+            width: 'auto',
+            table:{
+              headerRows: 1,
+              widths:[100,'auto'],
+              body: [
+                ['País','Clientes'],
+                ...options.topCountries.map((c)=> [c.country,c.customers])
+              ]
+            }
+          }
+        ]
       }
     ]
   };

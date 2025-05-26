@@ -13,8 +13,9 @@ const logo: Content = {
 const currentDate: Content = {
     text: DateFormatter.getDDMMMMYYYY(new Date()),
     alignment: 'right',
-    margin: [45, 30],
-    width: 250
+    margin: [20, 30],
+    width: 100,
+    fontSize:10
 }
 
 
@@ -38,7 +39,7 @@ export const headerSection = (option: HeaderOptions): Content => {
             margin:[0,2,0,0],
             style:{
                 fontSize: 16,
-                bold:true
+               // bold:true
             }
         } : null;
     const headerTitle: Content = title ? {

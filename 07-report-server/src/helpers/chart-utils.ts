@@ -1,23 +1,33 @@
-import axios from "axios";
+import axios from 'axios';
 
 interface ChartOptions {
   heigth?: number;
   width?: number;
 }
 
-
 export const chartJSToImage = async (
-
   chartConfig: unknown,
-  options: ChartOptions =  {},
-  ) => {
-    const params = new URLSearchParams();
-    if(options.heigth) params.append('height',options.heigth.toString());
-    if(options.width) params.append('width',options.width.toString());
-    const encodeUri = encodeURIComponent(JSON.stringify(chartConfig));
-    const chartUrl = `https://quickchart.io/chart?c=${encodeUri}&${params.toString()}`;
+  options: ChartOptions = {},
+) => {
+  const params = new URLSearchParams();
+  if (options.heigth) params.append('height', options.heigth.toString());
+  if (options.width) params.append('width', options.width.toString());
+  const encodeUri = encodeURIComponent(JSON.stringify(chartConfig));
+  const chartUrl = `https://quickchart.io/chart?c=${encodeUri}&${params.toString()}`;
 
-    const response = await axios.get(chartUrl,{responseType: 'arraybuffer'});
+  const response = await axios.get(chartUrl, { responseType: 'arraybuffer' });
 
-    return `data:image/png;base64,${Buffer.from(response.data).toString('base64')}`;
-}
+  return `data:image/png;base64,${Buffer.from(response.data).toString('base64')}`;
+};
+
+export const CHART_COLORS = [
+  '#4dc9f6',
+  '#f67019',
+  '#f53794',
+  '#537bc4',
+  '#acc236',
+  '#166a8f',
+  '#00a950',
+  '#727478',
+  '#9756cf',
+];
