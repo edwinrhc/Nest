@@ -1,5 +1,6 @@
 import type{ TDocumentDefinitions } from "pdfmake/interfaces";
 import * as Utils from 'src/helpers/chart-utils';
+import { getDonutChart } from './charts/donut.chart';
 
 
 interface TopCountry{
@@ -13,51 +14,19 @@ interface ReportOptions {
   topCountries: TopCountry[];
 }
 
-const generateTopCountriesDonut =
-    async  (topCountries: TopCountry[]) :Promise<string> =>{
-  const data = {
-    labels: topCountries.map((country)  => country.country),
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: topCountries.map((country) => country.customers),
-       // backgroundColor: Object.values(Utils.CHART_COLORS),
-      }
-    ]
-  };
 
-      const config = {
-        type: 'doughnut',
-        data: data,
-        options: {
-          responsive: true,
-          legend: {
-            position: 'left',
-          },
-          title: {
-            text: 'Chart.js Doughnut Chart',
-            display: true,
-          },
-          plugins: {
-            datalabels: {
-              color: 'white',
-              font:{
-                weight: 'bold',
-                size: 14,
-              }
-            },
-          }
-        },
-      };
-
-  return Utils.chartJSToImage(config)
-}
 
 export const getStatisticReport =  async (
     options: ReportOptions):
     Promise<TDocumentDefinitions> => {
 
-  const dountChart = await generateTopCountriesDonut(options.topCountries);
+  const dountChart = await getDonutChart({
+    entries: options.topCountries.map((c) => ({
+      label: c.country,
+        value: c.customers
+    })),
+    posicion: 'left'
+  });
 
   const docDefinition : TDocumentDefinitions = {
     content: [
