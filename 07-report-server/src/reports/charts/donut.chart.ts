@@ -48,5 +48,5 @@ export const getDonutChart = async  (options: DonutOptions) :Promise<string> => 
       },
     };
 
-    return Utils.chartJSToImage(config)
+    return Utils.chartJsToImage(config)
   }

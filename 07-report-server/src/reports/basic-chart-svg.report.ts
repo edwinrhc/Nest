@@ -20,7 +20,7 @@ const generateChartImage = async () => {
             ]
         }
     }
-    return Utils.chartJSToImage(chartConfig);
+    return Utils.chartJsToImage(chartConfig);
 };
 
 export const getBasicChartSvgReport = async (): Promise<TDocumentDefinitions> => {
