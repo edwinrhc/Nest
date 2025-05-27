@@ -3,6 +3,9 @@ import * as Utils from 'src/helpers/chart-utils';
 import { getDonutChart } from './charts/donut.chart';
 import { headerSection } from './sections/header.section';
 import { getLineChart } from './charts/line.chart';
+import { getBarsChart } from './charts/bars.chart';
+import { footerSection } from './sections/footer.section';
+import { getPolarChart } from './charts/polar.chart';
 
 
 interface TopCountry{
@@ -22,7 +25,7 @@ export const getStatisticReport =  async (
     options: ReportOptions):
     Promise<TDocumentDefinitions> => {
 
-  const [donutChart, lineChart] = await Promise.all([
+  const [donutChart, lineChart, barChart,polarChart] = await Promise.all([
     getDonutChart({
       entries: options.topCountries.map((c) => ({
         label: c.country,
@@ -30,7 +33,9 @@ export const getStatisticReport =  async (
       })),
       posicion: 'left'
     }),
-    getLineChart()
+    getLineChart(),
+    getBarsChart(),
+    getPolarChart()
   ])
 
 
@@ -40,6 +45,7 @@ export const getStatisticReport =  async (
       title: options.title ?? 'Estadisticas de clientes',
       subTitle: options.subTitle ?? 'Top 10 países con más clientes',
     }),
+    footer: footerSection,
     content: [
       {
         columns: [
@@ -73,6 +79,19 @@ export const getStatisticReport =  async (
         image: lineChart,
         width: 500,
         margin:[0,20]
+      },
+      {
+        columnGap: 10,
+        columns: [
+          {
+            image: barChart,
+            width: 250,
+          },
+          {
+            image: polarChart,
+            width: 250,
+          }
+        ]
       }
     ]
   };
