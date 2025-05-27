@@ -27,6 +27,8 @@
     "@nestjs/platform-express": "^10.4.18",
     "@prisma/client": "^5.21.1",
     "axios": "^1.7.9",
+    "html-to-pdfmake": "^2.5.26",
+    "jsdom": "^26.1.0",
     "pdfmake": "^0.2.14",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
